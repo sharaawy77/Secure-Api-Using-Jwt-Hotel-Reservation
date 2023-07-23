@@ -19,6 +19,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 builder.Services.AddScoped<IAuthService, AuthService>();
+builder.Services.AddScoped<IReserveService, ReserveService>();
 
 //map DAta to JWT
 builder.Services.Configure<JWT>(builder.Configuration.GetSection("JWT"));
@@ -52,6 +53,11 @@ builder.Services.AddAuthentication(options =>
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(connectionString), ServiceLifetime.Transient
+);
+//HotelConnectionString
+var HconnectionString = builder.Configuration.GetConnectionString("HotelConnection");
+builder.Services.AddDbContext<Hotel_RESERVATIONContext>(options =>
+    options.UseSqlServer(HconnectionString), ServiceLifetime.Transient
 );
 //Using identity
 builder.Services.AddIdentity<IdentityUser, IdentityRole>()
